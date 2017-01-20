@@ -54,7 +54,8 @@ public:
 
 		enum KeyMap { DrumRack, XY };
 		// full brightness defaults
-		enum KeyColor { Off = 0x0C, Red = 0x0F , Green = 0x3C, Yellow = 0x3E , Amber = 0x3F };
+		//enum KeyColor { Off = 0x0C, Red = 0x0F , Green = 0x3C, Yellow = 0x3E , Amber = 0x3F };
+		enum KeyColor { Off = 0x00, Red = 0x03 , Green = 0x30, Yellow = 0x3C , Amber = 0x33 };
 		enum KeyBrightness { Low, High };
 
 		LaunchpadKey(int row, int col){
@@ -146,6 +147,8 @@ public:
 	MidiInput *input;
 	MidiOutput *output;
 
+	uint8_t velArray[8][8] = { {0x0} };
+
 //public:
 
 	Launchpad()// : MidiInput(name),
@@ -217,10 +220,24 @@ public:
 
 	void writeBufNow()
 	{
+		uint8_t *bytes;
 
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j += 2)
+			{
+				bytes = &velArray[i][j];
+				output->sendMessageNow(MidiMessage(0x92, bytes[0], bytes[1], 0));
+			}
+		}
+		// set non-main grid buttons to 0 for now
+		for(int i = 0; i < 16; i++)
+		{
+			output->sendMessageNow(MidiMessage(0x92, 0x0, 0x0, 0));
+		}
 	}
 
-	void setKey(int x_pos, int y_pos, LaunchpadKey::KeyColor color)
+	void setKey(int x_pos, int y_pos, LaunchpadKey::KeyColor color, bool setNow)
 	{
 		// find key
 		std::list<LaunchpadKey>::iterator iterator;
@@ -230,8 +247,17 @@ public:
 			if(iterator->isKey(x_pos, y_pos))
 			{
 				iterator->setKeyColor(color);
-				MidiMessage currentMessage(0x90, (int)iterator->key, (int)iterator->velocity, (double)0);
-				output->sendMessageNow(currentMessage);
+				if(setNow == true)
+				{
+					// creates message and writes immediately
+					MidiMessage currentMessage(0x90, (int)iterator->key, (int)iterator->velocity, (double)0);
+					output->sendMessageNow(currentMessage);
+				}
+				else
+				{
+					// assumes 0x0 set initially (or does it need to?)
+					velArray[x_pos][y_pos] = iterator->velocity;
+				}
 				break;
 			}
 
@@ -277,6 +303,11 @@ public:
 		{
 			return false;
 		}
+	}
+
+	void sendRawMessage(int byte1, int byte2, int byte3)
+	{
+		output->sendMessageNow(MidiMessage(byte1, byte2, byte3, 0));
 	}
 
 	//

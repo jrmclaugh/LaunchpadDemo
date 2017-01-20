@@ -36,10 +36,54 @@ int main (int argc, char* argv[])
 		launchpad.turnOnAllMed();
 		launchpad.turnOnAllHigh();
 		launchpad.resetLaunchpad();
-		launchpad.setKey(0, 0, Launchpad::LaunchpadKey::Green);
-		launchpad.setKey(0, 7, Launchpad::LaunchpadKey::Green);
-		launchpad.setKey(7, 0, Launchpad::LaunchpadKey::Green);
-		launchpad.setKey(7, 7, Launchpad::LaunchpadKey::Green);
+		launchpad.setKey(0, 0, Launchpad::LaunchpadKey::Green, true);
+		launchpad.setKey(0, 7, Launchpad::LaunchpadKey::Green, true);
+		launchpad.setKey(7, 0, Launchpad::LaunchpadKey::Green, true);
+		launchpad.setKey(7, 7, Launchpad::LaunchpadKey::Green, true);
+		launchpad.resetLaunchpad();
+		launchpad.setKey(0, 0, Launchpad::LaunchpadKey::Green, false);
+		launchpad.setKey(0, 7, Launchpad::LaunchpadKey::Green, false);
+		launchpad.setKey(7, 0, Launchpad::LaunchpadKey::Green, false);
+		launchpad.setKey(7, 7, Launchpad::LaunchpadKey::Green, false);
+		launchpad.writeBufNow();
+		launchpad.resetLaunchpad();
+		launchpad.sendRawMessage(0xB0, 0x00, 0x31);
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				if(i != 3 && j != 4)
+				{
+					launchpad.setKey(i, j, Launchpad::LaunchpadKey::Green, false);
+				}
+			}
+		}
+		launchpad.writeBufNow();
+		launchpad.sendRawMessage(0xB0, 0x00, 0x34);
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				if(i != 3 && j != 4)
+				{
+					launchpad.setKey(i, j, Launchpad::LaunchpadKey::Red, false);
+				}
+			}
+		}
+		launchpad.writeBufNow();
+		launchpad.sendRawMessage(0xB0, 0x00, 0x31);
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				if(i != 3 && j != 4)
+				{
+					launchpad.setKey(i, j, Launchpad::LaunchpadKey::Amber, false);
+				}
+			}
+		}
+		launchpad.writeBufNow();
+		launchpad.sendRawMessage(0xB0, 0x00, 0x34);
 		launchpad.resetLaunchpad();
 	}
 
