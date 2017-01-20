@@ -13,18 +13,14 @@
 #include <sstream>
 #include <bitset>
 
-class Launchpad// : private MidiInput,
+class Launchpad	// : private MidiInput,
 				//	private MidiOutput,
 				//	public MidiInputCallback
 {
+public:
 
 	class LaunchpadKey
 	{
-		uint8_t key;
-		uint8_t velocity;
-		uint8_t x_pos;
-		uint8_t y_pos;
-
 		// add x-y and drum rack arrays of row/column vs notes and codes
 		// use LaunchPadKey object?  or just basic array?  what are benefits of each?
 		const uint8_t drumRackLayoutCodes[8][8] = {
@@ -50,6 +46,11 @@ class Launchpad// : private MidiInput,
 		};
 
 	public:
+
+		uint8_t key;
+		uint8_t velocity;
+		uint8_t x_pos;
+		uint8_t y_pos;
 
 		enum KeyMap { DrumRack, XY };
 		// full brightness defaults
@@ -100,12 +101,31 @@ class Launchpad// : private MidiInput,
 			return key;
 		}
 
+		void setKeyColor(KeyColor color)
+		{
+
+			this->velocity = color;
+
+		}
+
 		// return single (two?) byte velocity value
 		uint8_t get_velocity(KeyColor color)
 		{
 			this->velocity = color;
 
 			return this->velocity;
+		}
+
+		bool isKey(uint8_t x_pos, uint8_t y_pos)
+		{
+			if(this->x_pos == x_pos && this->y_pos == y_pos)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 	};
@@ -126,7 +146,7 @@ class Launchpad// : private MidiInput,
 	MidiInput *input;
 	MidiOutput *output;
 
-public:
+//public:
 
 	Launchpad()// : MidiInput(name),
 					//MidiOutput(name)
@@ -200,8 +220,22 @@ public:
 
 	}
 
-	void setKey(int keyNum, LaunchpadKey::KeyColor color)
+	void setKey(int x_pos, int y_pos, LaunchpadKey::KeyColor color)
 	{
+		// find key
+		std::list<LaunchpadKey>::iterator iterator;
+
+		for(iterator = KeyList.begin(); iterator != KeyList.end(); ++iterator)
+		{
+			if(iterator->isKey(x_pos, y_pos))
+			{
+				iterator->setKeyColor(color);
+				MidiMessage currentMessage(0x90, (int)iterator->key, (int)iterator->velocity, (double)0);
+				output->sendMessageNow(currentMessage);
+				break;
+			}
+
+		}
 
 	}
 

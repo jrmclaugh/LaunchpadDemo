@@ -31,10 +31,15 @@ int main (int argc, char* argv[])
 	if(launchpad.isOutputOpen())
 	{
 		launchpad.resetLaunchpad();
-		launchpad.set_map_DrumRack();
+		launchpad.set_map_XY();
 		launchpad.turnOnAllLow();
 		launchpad.turnOnAllMed();
 		launchpad.turnOnAllHigh();
+		launchpad.resetLaunchpad();
+		launchpad.setKey(0, 0, Launchpad::LaunchpadKey::Green);
+		launchpad.setKey(0, 7, Launchpad::LaunchpadKey::Green);
+		launchpad.setKey(7, 0, Launchpad::LaunchpadKey::Green);
+		launchpad.setKey(7, 7, Launchpad::LaunchpadKey::Green);
 		launchpad.resetLaunchpad();
 	}
 
