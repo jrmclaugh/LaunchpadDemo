@@ -11,6 +11,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Launchpad.h"
 
+void drawSweep(Launchpad *launchpad);
+
 
 //==============================================================================
 int main (int argc, char* argv[])
@@ -31,7 +33,7 @@ int main (int argc, char* argv[])
 	if(launchpad.isOutputOpen())
 	{
 		launchpad.resetLaunchpad();
-		launchpad.set_map_XY();
+/*		launchpad.set_map_XY();
 		launchpad.turnOnAllLow();
 		launchpad.turnOnAllMed();
 		launchpad.turnOnAllHigh();
@@ -45,47 +47,60 @@ int main (int argc, char* argv[])
 		launchpad.setKey(0, 7, Launchpad::LaunchpadKey::Green, false);
 		launchpad.setKey(7, 0, Launchpad::LaunchpadKey::Green, false);
 		launchpad.setKey(7, 7, Launchpad::LaunchpadKey::Green, false);
-		launchpad.writeBufNow();
+		launchpad.writeBufNow();*/
 		launchpad.resetLaunchpad();
-		launchpad.sendRawMessage(0xB0, 0x00, 0x31);
-		for(int i = 0; i < 8; i++)
+
+//		for(int i = 0; i < 8; i++)
+//		{
+//			for(int j = 0; j < 8; j++)
+//			{
+//				launchpad.setKey(i, j, Launchpad::LaunchpadKey::Amber, false);
+//			}
+//		}
+//		launchpad.writeBufNow();
+		while(1)
 		{
-			for(int j = 0; j < 8; j++)
-			{
-				if(i != 3 && j != 4)
-				{
-					launchpad.setKey(i, j, Launchpad::LaunchpadKey::Green, false);
-				}
-			}
+			drawSweep(&launchpad);
 		}
-		launchpad.writeBufNow();
-		launchpad.sendRawMessage(0xB0, 0x00, 0x34);
-		for(int i = 0; i < 8; i++)
-		{
-			for(int j = 0; j < 8; j++)
-			{
-				if(i != 3 && j != 4)
-				{
-					launchpad.setKey(i, j, Launchpad::LaunchpadKey::Red, false);
-				}
-			}
-		}
-		launchpad.writeBufNow();
-		launchpad.sendRawMessage(0xB0, 0x00, 0x31);
-		for(int i = 0; i < 8; i++)
-		{
-			for(int j = 0; j < 8; j++)
-			{
-				if(i != 3 && j != 4)
-				{
-					launchpad.setKey(i, j, Launchpad::LaunchpadKey::Amber, false);
-				}
-			}
-		}
-		launchpad.writeBufNow();
-		launchpad.sendRawMessage(0xB0, 0x00, 0x34);
 		launchpad.resetLaunchpad();
 	}
 
     return 0;
+}
+
+void drawSweep(Launchpad *launchpad)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			launchpad->setKey(i, j, Launchpad::LaunchpadKey::Red, false);
+		}
+		launchpad->writeBufNow();
+	}
+
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			launchpad->setKey(i, j, Launchpad::LaunchpadKey::Green, false);
+		}
+		launchpad->writeBufNow();
+	}
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			launchpad->setKey(j, i, Launchpad::LaunchpadKey::Red, false);
+		}
+		launchpad->writeBufNow();
+	}
+	for(int i = 0; i < 8; i++)
+	{
+		for(int j = 0; j < 8; j++)
+		{
+			launchpad->setKey(j, i, Launchpad::LaunchpadKey::Green, false);
+		}
+		launchpad->writeBufNow();
+	}
 }

@@ -13,6 +13,8 @@
 #include <sstream>
 #include <bitset>
 
+#define FLASH_DELAY_MS	100
+
 class Launchpad	// : private MidiInput,
 				//	private MidiOutput,
 				//	public MidiInputCallback
@@ -131,6 +133,8 @@ public:
 
 	};
 
+	// begin non-LaunchpadKey
+
 	std::list<LaunchpadKey> KeyList;
 
 	void set_map(LaunchpadKey::KeyMap map)
@@ -148,6 +152,8 @@ public:
 	MidiOutput *output;
 
 	uint8_t velArray[8][8] = { {0x0} };
+
+	uint8_t lastDoubleBufByte;
 
 //public:
 
@@ -186,6 +192,8 @@ public:
 			}
 		}
 
+		lastDoubleBufByte = 0x34;
+
 	}
 
 	~Launchpad()
@@ -220,7 +228,16 @@ public:
 
 	void writeBufNow()
 	{
+		static bool firstRun = true;
 		uint8_t *bytes;
+
+		// first run send initial set up message
+		if(firstRun == true)
+		{
+			output->sendMessageNow(MidiMessage(0xB0, 0x00, 0x31));
+			lastDoubleBufByte = 0x31;
+			firstRun = false;
+		}
 
 		for(int i = 0; i < 8; i++)
 		{
@@ -231,9 +248,24 @@ public:
 			}
 		}
 		// set non-main grid buttons to 0 for now
-		for(int i = 0; i < 16; i++)
+		for(int i = 0; i < 8; i++)
 		{
 			output->sendMessageNow(MidiMessage(0x92, 0x0, 0x0, 0));
+		}
+
+		// wait for min set up time (TODO optimize)
+		Time::waitForMillisecondCounter(Time::getMillisecondCounter()+FLASH_DELAY_MS);
+
+		// switch display buffer
+		if(lastDoubleBufByte == 0x34)
+		{
+			output->sendMessageNow(MidiMessage(0xB0, 0x00, 0x31));
+			lastDoubleBufByte = 0x31;
+		}
+		else
+		{
+			output->sendMessageNow(MidiMessage(0xB0, 0x00, 0x34));
+			lastDoubleBufByte = 0x34;
 		}
 	}
 
