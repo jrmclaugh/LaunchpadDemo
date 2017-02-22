@@ -19,7 +19,7 @@ int main (int argc, char* argv[])
 {
 	Launchpad launchpad;
 
-	// test changing file
+	// test changing file 2
 	Logger::outputDebugString("!!Hellow World!!");
 
 	Logger::outputDebugString("Default Layout");
