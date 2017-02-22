@@ -38,19 +38,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: TestConsoleCustomModules
+all: LaunchpadDemo
 
 # Tool invocations
-TestConsoleCustomModules: $(OBJS) $(USER_OBJS)
+LaunchpadDemo: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	arm-linux-gnueabihf-g++ -L/home/james/raspberrypi/rootfs/usr/lib/arm-linux-gnueabihf/ -L/home/james/raspberrypi/rootfs/lib/arm-linux-gnueabihf/ -L/home/james/raspberrypi/rootfs/usr/lib/gcc/arm-linux-gnueabihf/4.8/ -Xlinker -rpath-link=/home/james/raspberrypi/rootfs/usr/lib/arm-linux-gnueabihf/ -Xlinker -rpath-link=/home/james/raspberrypi/rootfs/lib/arm-linux-gnueabihf/ -Xlinker -rpath-link=/home/james/raspberrypi/rootfs/usr/lib/gcc/arm-linux-gnueabihf/4.8/ -o "TestConsoleCustomModules" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-linux-gnueabihf-g++ -L/home/james/raspberrypi/rootfs/usr/lib/arm-linux-gnueabihf/ -L/home/james/raspberrypi/rootfs/lib/arm-linux-gnueabihf/ -L/home/james/raspberrypi/rootfs/usr/lib/gcc/arm-linux-gnueabihf/4.8/ -Xlinker -rpath-link=/home/james/raspberrypi/rootfs/usr/lib/arm-linux-gnueabihf/ -Xlinker -rpath-link=/home/james/raspberrypi/rootfs/lib/arm-linux-gnueabihf/ -Xlinker -rpath-link=/home/james/raspberrypi/rootfs/usr/lib/gcc/arm-linux-gnueabihf/4.8/ -o "LaunchpadDemo" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(C_DEPS)$(CPP_DEPS) TestConsoleCustomModules
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(C_DEPS)$(CPP_DEPS) LaunchpadDemo
 	-@echo ' '
 
 .PHONY: all clean dependents

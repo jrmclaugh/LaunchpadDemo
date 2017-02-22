@@ -35,7 +35,7 @@ CPP_DEPS += \
 JuceLibraryCode/%.o: ../JuceLibraryCode/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
-	arm-linux-gnueabihf-g++ -std=c++0x -I"/home/james/workspace/TestConsoleCustomModules/JuceLibraryCode" -I/home/james/raspberrypi/rootfs/usr/include/arm-linux-gnueabihf/ -I/home/james/raspberrypi/rootfs/usr/include/ -I/home/james/JUCE/modules -O0 -g3 -ggdb -Wall -c -fmessage-length=0  $(shell pkg-config --cflags alsa libcurl x11) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	arm-linux-gnueabihf-g++ -std=c++0x -I"/home/james/workspace/LaunchpadDemo/JuceLibraryCode" -I/home/james/raspberrypi/rootfs/usr/include/arm-linux-gnueabihf/ -I/home/james/raspberrypi/rootfs/usr/include/ -I/home/james/JUCE/modules -O0 -g3 -ggdb -Wall -c -fmessage-length=0  $(shell pkg-config --cflags alsa libcurl x11) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

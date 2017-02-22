@@ -157,6 +157,11 @@ public:
 
 //public:
 
+//	virtual MidiInputCallback launchpadMessageHandler()
+//	{
+//
+//	}
+
 	Launchpad()// : MidiInput(name),
 					//MidiOutput(name)
 	{
@@ -178,7 +183,7 @@ public:
 			Logger::outputDebugString(inputDevices[i]);
 			if(inputDevices[i].contains("Launchpad"))
 			{
-				//input = MidiInput::openDevice(i, handleMidiMessage);
+				//input = MidiInput::openDevice(i, &launchpadMessageHandler);
 				input = NULL;
 			}
 		}
@@ -194,11 +199,13 @@ public:
 
 		lastDoubleBufByte = 0x34;
 
+		this->resetLaunchpad();
+
 	}
 
 	~Launchpad()
 	{
-
+		this->resetLaunchpad();
 	}
 
 	void print_keys()

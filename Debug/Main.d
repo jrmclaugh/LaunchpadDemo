@@ -1,7 +1,7 @@
 Main.o: ../Main.cpp \
  /home/james/raspberrypi/rootfs/usr/include/stdc-predef.h \
- /home/james/workspace/TestConsoleCustomModules/JuceLibraryCode/../JuceLibraryCode/JuceHeader.h \
- /home/james/workspace/TestConsoleCustomModules/JuceLibraryCode/../JuceLibraryCode/AppConfig.h \
+ /home/james/workspace/LaunchpadDemo/JuceLibraryCode/../JuceLibraryCode/JuceHeader.h \
+ /home/james/workspace/LaunchpadDemo/JuceLibraryCode/../JuceLibraryCode/AppConfig.h \
  /home/james/JUCE/modules/juce_audio_basics/juce_audio_basics.h \
  /home/james/JUCE/modules/juce_core/juce_core.h \
  /home/james/JUCE/modules/juce_core/system/juce_TargetPlatform.h \
@@ -230,9 +230,9 @@ Main.o: ../Main.cpp \
 
 /home/james/raspberrypi/rootfs/usr/include/stdc-predef.h:
 
-/home/james/workspace/TestConsoleCustomModules/JuceLibraryCode/../JuceLibraryCode/JuceHeader.h:
+/home/james/workspace/LaunchpadDemo/JuceLibraryCode/../JuceLibraryCode/JuceHeader.h:
 
-/home/james/workspace/TestConsoleCustomModules/JuceLibraryCode/../JuceLibraryCode/AppConfig.h:
+/home/james/workspace/LaunchpadDemo/JuceLibraryCode/../JuceLibraryCode/AppConfig.h:
 
 /home/james/JUCE/modules/juce_audio_basics/juce_audio_basics.h:
 
